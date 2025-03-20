@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Typography, CircularProgress } from '@mui/material';
+import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Typography, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import axios from 'axios';
 
 interface Item {
@@ -21,6 +21,8 @@ function App() {
   const [nfes, setNfes] = useState<Nfe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedNfe, setSelectedNfe] = useState<Nfe | null>(null);
 
   const api = axios.create({
     baseURL: 'http://localhost:8080',
@@ -56,6 +58,16 @@ function App() {
       console.error('Erro ao cancelar NFe:', error);
       setError('Erro ao cancelar a nota fiscal. Por favor, tente novamente.');
     }
+  };
+
+  const handleOpenDialog = (nfe: Nfe) => {
+    setSelectedNfe(nfe);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedNfe(null);
   };
 
   if (loading) {
@@ -102,9 +114,18 @@ function App() {
                   <TableCell>
                     <Button
                       variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={() => handleOpenDialog(nfe)}
+                    >
+                      Detalhes
+                    </Button>
+                    <Button
+                      variant="contained"
                       color="error"
                       size="small"
                       onClick={() => cancelarNfe(nfe.id)}
+                      sx={{ ml: 2 }}
                     >
                       Cancelar
                     </Button>
@@ -115,6 +136,38 @@ function App() {
           </Table>
         </TableContainer>
       )}
+
+      {/* Dialog for displaying NFe details */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Detalhes da NFe: {selectedNfe?.numero}</DialogTitle>
+        <DialogContent>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Descrição</TableCell>
+                <TableCell>Quantidade</TableCell>
+                <TableCell>Valor Unitário</TableCell>
+                <TableCell>Valor Total</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {selectedNfe?.itens.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.descricao}</TableCell>
+                  <TableCell>{item.quantidade}</TableCell>
+                  <TableCell>{item.valorUnitario.toFixed(2)}</TableCell>
+                  <TableCell>{item.valorTotal.toFixed(2)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }

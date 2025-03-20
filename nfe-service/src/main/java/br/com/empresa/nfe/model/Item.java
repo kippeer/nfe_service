@@ -1,5 +1,7 @@
 package br.com.empresa.nfe.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -15,6 +17,7 @@ public class Item {
     
     @ManyToOne
     @JoinColumn(name = "nfe_id")
+    @JsonBackReference
     private Nfe nfe;
     
     public Long getId() {

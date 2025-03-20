@@ -1,5 +1,7 @@
 package br.com.empresa.nfe.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Nfe {
     private LocalDateTime dataEmissao;
     
     @OneToMany(mappedBy = "nfe", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Item> itens = new ArrayList<>();
     
     public Long getId() {
