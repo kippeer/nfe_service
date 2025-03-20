@@ -34,20 +34,3 @@ INSERT INTO item (descricao, quantidade, valor_unitario, nfe_id) VALUES
 ('Webcam HD', 3, 299.99, 2),
 ('Headset Gamer', 1, 399.99, 2);
 
--- Inserção de Itens para NFE003
-INSERT INTO item (descricao, quantidade, valor_unitario, nfe_id) VALUES
-('SSD 1TB', 4, 599.99, 3),
-('Memória RAM 16GB', 2, 399.99, 3),
-('Placa de Vídeo RTX 3060', 1, 2999.99, 3);
-
--- Inserção de Itens para NFE004
-INSERT INTO item (descricao, quantidade, valor_unitario, nfe_id) VALUES
-('iPhone 15 Pro', 1, 9999.99, 4),
-('Carregador USB-C', 2, 199.99, 4),
-('Capa Protetora', 1, 99.99, 4);
-
--- Inserção de Itens para NFE005
-INSERT INTO item (descricao, quantidade, valor_unitario, nfe_id) VALUES
-('MacBook Pro M2', 1, 12999.99, 5),
-('Magic Mouse', 1, 699.99, 5),
-('Magic Keyboard', 1, 899.99, 5);
